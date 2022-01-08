@@ -1,4 +1,4 @@
-const Thermostat = require('./thermostat')
+import { Thermostat } from './thermostat.js';
 
 describe('Thermostat', () => {
   it('gets the default temperature', () => {
@@ -26,12 +26,12 @@ describe('Thermostat', () => {
     let thermostat = new Thermostat();
     thermostat.setPowerSavingMode(false);
     expect(thermostat.powerSaveMode).toEqual(false);
-  })
+  });
   it('changes max temp to 25 if is on', () => {
     let thermostat = new Thermostat();
     thermostat.setPowerSavingMode(true);
     expect(thermostat.maxTemp).toEqual(25);
-  })
+  });
   it('resets the temperature', () => {
     let thermostat = new Thermostat();
     for (let i = 0 ; i < 5 ; i++) {
@@ -39,5 +39,26 @@ describe('Thermostat', () => {
     }
     thermostat.reset();
     expect(thermostat.initTemp).toEqual(20);
+  });
+  it('returns energy usage is low', () => {
+    let thermostat = new Thermostat();
+    for (let i = 0 ; i < 5 ; i++) {
+    thermostat.down();
+    }
+    expect(thermostat.getEnergyUsage()).toEqual('low-usage');
+  });
+  it('returns energy usage is medium', () => {
+    let thermostat = new Thermostat();
+    for (let i = 0 ; i < 2 ; i++) {
+    thermostat.up();
+    }
+    expect(thermostat.getEnergyUsage()).toEqual('medium-usage');
+  })
+  it('returns energy usage is high', () => {
+    let thermostat = new Thermostat();
+    for (let i = 0 ; i < 8 ; i++) {
+    thermostat.up();
+    }
+    expect(thermostat.getEnergyUsage()).toEqual('high-usage');
   })
 });
